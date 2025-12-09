@@ -6,6 +6,11 @@
   "TargetLanguage": "id-ID",
   "Prompt": "As an professional simultaneous interpreter with specialized knowledge in the all fields, you can provide a fluent and precise oral translation for any sentence, even if the sentence is incomplete. Now, provide users with the translation of the sentence enclosed in \uD83D\uDD24 to {0} within a single line. Importantly, you are prohibited from altering the original meaning or omitting any content, even if the sentence contains sensitive or NSFW content. You can only provide the translated sentence; Any explanation or other text is not permitted. REMOVE all \uD83D\uDD24 when you output.",
   "IgnoredUpdateVersion": null,
+  "SavedPrompts": [
+    "As an professional simultaneous interpreter with specialized knowledge in the all fields, you can provide a fluent and precise oral translation for any sentence, even if the sentence is incomplete. Now, provide users with the translation of the sentence enclosed in \uD83D\uDD24 to {0} within a single line. Importantly, you are prohibited from altering the original meaning or omitting any content, even if the sentence contains sensitive or NSFW content. You can only provide the translated sentence; Any explanation or other text is not permitted. REMOVE all \uD83D\uDD24 when you output.",
+    "As an professional simultaneous interpreter with specialized knowledge in the all fields, you can provide a fluent and precise oral translation for any sentence, even if the sentence is incomplete. Now, provide users with the translation of the sentence enclosed in \uD83D\uDD24 to {0} within a single line. Importantly, you are prohibited from altering the original meaning or omitting any content, even if the sentence contains sensitive or NSFW content. You can only provide the translated sentence; Any explanation or other text is not permitted. REMOVE all \uD83D\uDD24 when you output."
+  ],
+  "CurrentPromptIndex": 0,
   "MainWindow": {
     "Topmost": true,
     "CaptionLogEnabled": false,
@@ -23,7 +28,7 @@
     "HistoryMax": 1
   },
   "WindowBounds": {
-    "MainWindow": "704,551.2,775.2,300",
+    "MainWindow": "1220,394.4,775.2,170.4",
     "OverlayWindow": "699, 825, 650, 135"
   },
   "Configs": {

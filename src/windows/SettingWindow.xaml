@@ -193,19 +193,67 @@
                                     FontWeight="Medium"
                                     Text="Prompt" />
                                 <ui:Card Padding="15">
-                                    <StackPanel Margin="15,0,15,0" Orientation="Vertical">
-                                        <ui:TextBlock Margin="2.5,0,0,5" TextWrapping="Wrap">
-                                            <Run FontWeight="Bold" Text="Note 1:" />
-                                            <Run Text="The {0} in the prompt indicates the target language, so make sure your prompt includes {0}." />
-                                            <Run FontWeight="Bold" Text="&#x0A;Note 2:" />
-                                            <Run Text="The source text is enclosed with 🔤." />
-                                        </ui:TextBlock>
-                                        <ui:TextBox
-                                            x:Name="PromptTextBox"
-                                            AcceptsReturn="True"
-                                            ClearButtonEnabled="False"
-                                            Text="{Binding Prompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            TextWrapping="Wrap" />
+                                    <StackPanel>
+                                        <Grid Margin="15,0,15,10">
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Prompt: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PromptPriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}" />
+                                                <ui:TextBlock
+                                                    x:Name="PromptIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PromptNextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}" />
+                                            </StackPanel>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="PromptSaveButton_Click"
+                                                    Content="Save" />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="PromptNewButton_Click"
+                                                    Content="New" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="PromptDeleteButton_Click"
+                                                    Content="Delete" />
+                                                <ui:Flyout x:Name="PromptDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="180"
+                                                        Text="Cannot delete the default prompt. You must keep at least one prompt."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Separator Margin="0,0,0,10" />
+                                        <StackPanel Margin="15,0,15,0" Orientation="Vertical">
+                                            <ui:TextBlock Margin="2.5,0,0,5" TextWrapping="Wrap">
+                                                <Run FontWeight="Bold" Text="Note 1:" />
+                                                <Run Text="The {0} in the prompt indicates the target language, so make sure your prompt includes {0}." />
+                                                <Run FontWeight="Bold" Text="&#x0A;Note 2:" />
+                                                <Run Text="The source text is enclosed with 🔤." />
+                                                <Run FontWeight="Bold" Text="&#x0A;Note 3:" />
+                                                <Run Text="The first prompt is the default prompt (read-only). Create new prompts to customize." />
+                                            </ui:TextBlock>
+                                            <ui:TextBox
+                                                x:Name="PromptTextBox"
+                                                AcceptsReturn="True"
+                                                ClearButtonEnabled="False"
+                                                Text="{Binding Prompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
                                     </StackPanel>
                                 </ui:Card>
                             </StackPanel>

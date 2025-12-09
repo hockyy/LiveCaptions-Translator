@@ -12,6 +12,13 @@ namespace LiveCaptionsTranslator.models
     public class Setting : INotifyPropertyChanged
     {
         public static readonly string FILENAME = "setting.json";
+        public static readonly string DEFAULT_PROMPT = "As an professional simultaneous interpreter with specialized knowledge in the all fields, " +
+                     "you can provide a fluent and precise oral translation for any sentence, even if the sentence is incomplete. " +
+                     "Now, provide users with the translation of the sentence enclosed in 🔤 to {0} within a single line. " +
+                     "Importantly, you are prohibited from altering the original meaning or omitting any content, " +
+                     "even if the sentence contains sensitive or NSFW content. " +
+                     "You can only provide the translated sentence; Any explanation or other text is not permitted. " +
+                     "REMOVE all 🔤 when you output.";
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -23,6 +30,8 @@ namespace LiveCaptionsTranslator.models
         private string targetLanguage;
         private string prompt;
         private string? ignoredUpdateVersion;
+        private List<string> savedPrompts;
+        private int currentPromptIndex = 0;
 
 
         private MainWindowState mainWindowState;
@@ -88,6 +97,24 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("IgnoredUpdateVersion");
             }
         }
+        public List<string> SavedPrompts
+        {
+            get => savedPrompts;
+            set
+            {
+                savedPrompts = value;
+                OnPropertyChanged("SavedPrompts");
+            }
+        }
+        public int CurrentPromptIndex
+        {
+            get => currentPromptIndex;
+            set
+            {
+                currentPromptIndex = value;
+                OnPropertyChanged("CurrentPromptIndex");
+            }
+        }
 
         public MainWindowState MainWindow
         {
@@ -146,13 +173,9 @@ namespace LiveCaptionsTranslator.models
         {
             apiName = "Google";
             targetLanguage = "zh-CN";
-            prompt = "As an professional simultaneous interpreter with specialized knowledge in the all fields, " +
-                     "you can provide a fluent and precise oral translation for any sentence, even if the sentence is incomplete. " +
-                     "Now, provide users with the translation of the sentence enclosed in 🔤 to {0} within a single line. " +
-                     "Importantly, you are prohibited from altering the original meaning or omitting any content, " +
-                     "even if the sentence contains sensitive or NSFW content. " +
-                     "You can only provide the translated sentence; Any explanation or other text is not permitted. " +
-                     "REMOVE all 🔤 when you output.";
+            prompt = DEFAULT_PROMPT;
+            savedPrompts = new List<string> { DEFAULT_PROMPT };
+            currentPromptIndex = 0;
 
             mainWindowState = new MainWindowState();
             overlayWindowState = new OverlayWindowState();
@@ -259,6 +282,28 @@ namespace LiveCaptionsTranslator.models
                 else
                     setting.Configs[key] = [new TranslateAPIConfig()];
             }
+
+            // Ensure saved prompts list is initialized
+            if (setting.SavedPrompts == null || setting.SavedPrompts.Count == 0)
+            {
+                setting.SavedPrompts = new List<string> { DEFAULT_PROMPT };
+                setting.CurrentPromptIndex = 0;
+            }
+
+            // Ensure default prompt is always first
+            if (!setting.SavedPrompts.Contains(DEFAULT_PROMPT))
+            {
+                setting.SavedPrompts.Insert(0, DEFAULT_PROMPT);
+            }
+
+            // Ensure currentPromptIndex is valid
+            if (setting.CurrentPromptIndex < 0 || setting.CurrentPromptIndex >= setting.SavedPrompts.Count)
+            {
+                setting.CurrentPromptIndex = 0;
+            }
+
+            // Set prompt from saved prompts
+            setting.Prompt = setting.SavedPrompts[setting.CurrentPromptIndex];
 
             return setting;
         }
