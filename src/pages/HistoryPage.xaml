@@ -152,9 +152,11 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock
+                                Cursor="Hand"
+                                MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                                 Text="{Binding Timestamp}"
                                 TextWrapping="Wrap"
-                                ToolTip="{Binding TimestampFull}" />
+                                ToolTip="Click to copy" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -162,7 +164,12 @@
                 <DataGridTemplateColumn Width="*" Header="Caption">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding SourceText}" TextWrapping="Wrap" />
+                            <TextBlock
+                                Cursor="Hand"
+                                MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                                Text="{Binding SourceText}"
+                                TextWrapping="Wrap"
+                                ToolTip="Click to copy" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -170,7 +177,12 @@
                 <DataGridTemplateColumn Width="*" Header="Translated">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding TranslatedText}" TextWrapping="Wrap" />
+                            <TextBlock
+                                Cursor="Hand"
+                                MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                                Text="{Binding TranslatedText}"
+                                TextWrapping="Wrap"
+                                ToolTip="Click to copy" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -178,7 +190,12 @@
                 <DataGridTemplateColumn Width="0.3*" Header="API">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding ApiUsed}" TextWrapping="Wrap" />
+                            <TextBlock
+                                Cursor="Hand"
+                                MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                                Text="{Binding ApiUsed}"
+                                TextWrapping="Wrap"
+                                ToolTip="Click to copy" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

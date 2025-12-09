@@ -172,6 +172,24 @@ namespace LiveCaptionsTranslator
             }
         }
 
+        private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBlock textBlock)
+            {
+                try
+                {
+                    Clipboard.SetText(textBlock.Text);
+                    textBlock.ToolTip = "Copied!";
+                }
+                catch
+                {
+                    textBlock.ToolTip = "Error to Copy";
+                }
+                await Task.Delay(500);
+                textBlock.ToolTip = "Click to copy";
+            }
+        }
+
         private void Snackbar_Show(string title, string message, bool isError = false)
         {
             var snackbar = new Snackbar(SnackbarHost)
