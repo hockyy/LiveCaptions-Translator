@@ -41,8 +41,16 @@ namespace LiveCaptionsTranslator
             InitializeComponent();
             DataContext = Translator.Caption;
 
-            Loaded += (s, e) => Translator.Caption.PropertyChanged += TranslatedChanged;
-            Unloaded += (s, e) => Translator.Caption.PropertyChanged -= TranslatedChanged;
+            Loaded += (s, e) =>
+            {
+                Translator.Caption.PropertyChanged += TranslatedChanged;
+                Translator.Setting.OverlayWindow.PropertyChanged += SettingChanged;
+            };
+            Unloaded += (s, e) =>
+            {
+                Translator.Caption.PropertyChanged -= TranslatedChanged;
+                Translator.Setting.OverlayWindow.PropertyChanged -= SettingChanged;
+            };
 
             this.OriginalCaption.FontWeight =
                 (Translator.Setting.OverlayWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
@@ -59,6 +67,7 @@ namespace LiveCaptionsTranslator
             this.BorderBackground.Background = ColorList[Translator.Setting.OverlayWindow.BackgroundColor];
             this.BorderBackground.Opacity = Translator.Setting.OverlayWindow.Opacity;
 
+            ApplyFontFamily();
             ApplyFontSize();
             ApplyBackgroundOpacity();
         }
@@ -140,6 +149,14 @@ namespace LiveCaptionsTranslator
         private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
         {
             ApplyFontSize();
+        }
+
+        private void SettingChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "FontFamily")
+            {
+                ApplyFontFamily();
+            }
         }
 
         private void Window_MouseEnter(object sender, MouseEventArgs e)
@@ -320,6 +337,13 @@ namespace LiveCaptionsTranslator
             Color color = ((SolidColorBrush)BorderBackground.Background).Color;
             BorderBackground.Background = new SolidColorBrush(
                 Color.FromArgb(Translator.Setting.OverlayWindow.Opacity, color.R, color.G, color.B));
+        }
+
+        public void ApplyFontFamily()
+        {
+            var fontFamily = new FontFamily(Translator.Setting.OverlayWindow.FontFamily);
+            this.OriginalCaption.FontFamily = fontFamily;
+            this.TranslatedCaption.FontFamily = fontFamily;
         }
     }
 }

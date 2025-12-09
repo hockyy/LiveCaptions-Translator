@@ -91,6 +91,37 @@
                         Value="{Binding MaxSyncInterval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </StackPanel>
+
+            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock Margin="2.5,0,0,5" Text="Font Family" />
+                    <ui:Flyout x:Name="FontFamilyInfoFlyout">
+                        <TextBlock Width="300" TextWrapping="Wrap">
+                            <Run Text="Select the font family to be used in captions and overlay window." />
+                        </TextBlock>
+                    </ui:Flyout>
+                    <Button
+                        x:Name="FontFamilyInfo"
+                        Width="15"
+                        Height="15"
+                        Margin="-5,-3,0,0"
+                        Padding="0"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        MouseEnter="FontFamilyInfo_MouseEnter"
+                        MouseLeave="FontFamilyInfo_MouseLeave">
+                        <ui:SymbolIcon Symbol="Info16" />
+                    </Button>
+                </StackPanel>
+                <ComboBox
+                    x:Name="FontFamilyBox"
+                    Width="120"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    SelectedItem="{Binding OverlayWindow.FontFamily, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionChanged="FontFamilyBox_SelectionChanged" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Orientation="Vertical">

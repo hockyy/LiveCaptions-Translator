@@ -60,6 +60,7 @@
                     <TextBlock
                         x:Name="OriginalCaption"
                         FontSize="15"
+                        FontFamily="{Binding OverlayWindow.FontFamily, UpdateSourceTrigger=PropertyChanged}"
                         Foreground="#FFFFFFFF"
                         Style="{StaticResource CaptionBlockStyle}"
                         Text="{Binding OverlayOriginalCaption, UpdateSourceTrigger=PropertyChanged}">

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 using LiveCaptionsTranslator.utils;
@@ -26,11 +27,14 @@ namespace LiveCaptionsTranslator
                 AutoHeight();
                 (App.Current.MainWindow as MainWindow).CaptionLogButton.Visibility = Visibility.Visible;
                 Translator.Caption.PropertyChanged += TranslatedChanged;
+                Translator.Setting.OverlayWindow.PropertyChanged += SettingChanged;
+                ApplyFontFamily();
             };
             Unloaded += (s, e) =>
             {
                 (App.Current.MainWindow as MainWindow).CaptionLogButton.Visibility = Visibility.Collapsed;
                 Translator.Caption.PropertyChanged -= TranslatedChanged;
+                Translator.Setting.OverlayWindow.PropertyChanged -= SettingChanged;
             };
 
             CollapseTranslatedCaption(Translator.Setting.MainWindow.CaptionLogEnabled);
@@ -73,6 +77,14 @@ namespace LiveCaptionsTranslator
                     }), DispatcherPriority.Background);
                 }
             }
+            else if (e.PropertyName == nameof(Translator.Caption.DisplayContexts))
+            {
+                // When contexts update, reapply font family to new items
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    ApplyFontFamily();
+                }), DispatcherPriority.Background);
+            }
         }
 
         public void CollapseTranslatedCaption(bool isCollapsed)
@@ -101,6 +113,45 @@ namespace LiveCaptionsTranslator
                 (App.Current.MainWindow as MainWindow).AutoHeightAdjust(
                     minHeight: (int)App.Current.MainWindow.MinHeight,
                     maxHeight: (int)App.Current.MainWindow.MinHeight);
+        }
+
+        private void SettingChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "FontFamily")
+            {
+                ApplyFontFamily();
+            }
+        }
+
+        private void ApplyFontFamily()
+        {
+            var fontFamily = new FontFamily(Translator.Setting.OverlayWindow.FontFamily);
+            this.OriginalCaption.FontFamily = fontFamily;
+            this.TranslatedCaption.FontFamily = fontFamily;
+            
+            // Apply to all TextBlocks in the ItemsControl (log cards)
+            foreach (var item in CaptionLogItems.Items)
+            {
+                var container = CaptionLogItems.ItemContainerGenerator.ContainerFromItem(item);
+                if (container != null)
+                {
+                    ApplyFontFamilyToVisualTree(container, fontFamily);
+                }
+            }
+        }
+
+        private void ApplyFontFamilyToVisualTree(DependencyObject parent, FontFamily fontFamily)
+        {
+            int childCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is TextBlock textBlock)
+                {
+                    textBlock.FontFamily = fontFamily;
+                }
+                ApplyFontFamilyToVisualTree(child, fontFamily);
+            }
         }
     }
 }

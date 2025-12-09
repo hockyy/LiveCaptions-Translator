@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using LiveCaptionsTranslator.models;
 using Wpf.Ui.Appearance;
 
@@ -28,6 +29,7 @@ namespace LiveCaptionsTranslator
             TranslateAPIBox.ItemsSource = Translator.Setting?.Configs.Keys;
             TranslateAPIBox.SelectedIndex = 0;
 
+            LoadFontFamilies();
             LoadAPISetting();
         }
 
@@ -186,6 +188,36 @@ namespace LiveCaptionsTranslator
             if (!supportedLanguages.ContainsKey(targetLang))
                 supportedLanguages[targetLang] = targetLang;    // add custom language to supported languages
             TargetLangBox.SelectedItem = targetLang;
+        }
+
+        private void LoadFontFamilies()
+        {
+            // Get all system font families and sort them by name
+            var fontFamilies = Fonts.SystemFontFamilies
+                .Select(f => f.Source)
+                .OrderBy(f => f)
+                .ToList();
+
+            FontFamilyBox.ItemsSource = fontFamilies;
+            FontFamilyBox.SelectedItem = Translator.Setting.OverlayWindow.FontFamily;
+        }
+
+        private void FontFamilyBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (FontFamilyBox.SelectedItem != null && Translator.Setting != null)
+            {
+                Translator.Setting.OverlayWindow.FontFamily = FontFamilyBox.SelectedItem.ToString();
+            }
+        }
+
+        private void FontFamilyInfo_MouseEnter(object sender, MouseEventArgs e)
+        {
+            FontFamilyInfoFlyout.Show();
+        }
+
+        private void FontFamilyInfo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            FontFamilyInfoFlyout.Hide();
         }
     }
 }

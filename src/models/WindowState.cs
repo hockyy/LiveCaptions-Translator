@@ -61,6 +61,7 @@ namespace LiveCaptionsTranslator.models
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private int fontSize = 15;
+        private string fontFamily = "Segoe UI";
         private int fontColor = 1;
         private int fontBold = 1;
         private int fontShadow = 1;
@@ -75,6 +76,15 @@ namespace LiveCaptionsTranslator.models
             {
                 fontSize = value;
                 OnPropertyChanged("FontSize");
+            }
+        }
+        public string FontFamily
+        {
+            get => fontFamily;
+            set
+            {
+                fontFamily = value;
+                OnPropertyChanged("FontFamily");
             }
         }
         public int FontColor
